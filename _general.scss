@@ -1,4 +1,4 @@
-/*	MIXINS */
+// Straight out of http://css-tricks.com/centering-in-the-unknown/
 @mixin vertical-align-middle {
 	vertical-align: middle;
 
@@ -11,17 +11,3 @@
 	}
 }
 
-
-
-/*	EXTENDABLE SELECTORS */
-// For only displaying :before content of an .ss-icon element
-%ss-before-icon {
-	overflow: hidden;
-	white-space: nowrap;
-
-	&:before {
-		display: inline-block;
-		margin-right: 1em;
-		width: 100%;
-	}
-}

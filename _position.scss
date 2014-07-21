@@ -1,4 +1,5 @@
 //Shorthand position mixin. Rather modified version of the "Bourbon" mixin
+
 @mixin position ($coordinates, $position: absolute) {
 
 	// Use same behavior as eg. shorthand margin. Ie. loop through values and
