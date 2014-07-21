@@ -1,4 +1,4 @@
-sass-mixins
+A couple 'a SASS mixins
 ===========
 
-A set of SASS mixins
+Free for all!

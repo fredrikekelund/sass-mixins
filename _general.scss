@@ -1,0 +1,27 @@
+/*	MIXINS */
+@mixin vertical-align-middle {
+	vertical-align: middle;
+
+	&:before {
+		content: "";
+		display: inline-block;
+		height: 100%;
+		margin-right: -.5em;
+		vertical-align: middle;
+	}
+}
+
+
+
+/*	EXTENDABLE SELECTORS */
+// For only displaying :before content of an .ss-icon element
+%ss-before-icon {
+	overflow: hidden;
+	white-space: nowrap;
+
+	&:before {
+		display: inline-block;
+		margin-right: 1em;
+		width: 100%;
+	}
+}
