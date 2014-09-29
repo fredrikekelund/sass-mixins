@@ -1,28 +1,68 @@
-// Mixin implementation for basic flexbox support across as many browsers as possible.
-// Using this as long as Compass's implementation doesn't match the latest spec.
+/**
+ * Description: Flexbox support across as many browsers as possible
+ * Last update: 2014/08/22
+ * Author: Fredrik Ekelund <fredrik@fredrik.computer>
+ *
+ * Although the most recent flexbox specification is supported without
+ * vendor prefixes in most browsers, for best support I recommend using
+ * Lea Verou's prefix-free to not have to worry about that.
+ *
+ * Flexbox is a real specification beast, with three different standards
+ * released by the W3C over the last few years. The first one was released
+ * in 2009, and can be found here:
+ * http://www.w3.org/TR/2009/WD-css3-flexbox-20090723/
+ * The 2009 specification is what most mobile browsers use.
+ *
+ * The second one was released in 2011 and only ever implemented in IE. It's
+ * called the "tweener" syntax, and the spec for it can be found here:
+ * http://www.w3.org/TR/2011/WD-css3-flexbox-20110322/
+ *
+ * The latest specification has also changed some from the 2012 candidate
+ * recommendation (http://www.w3.org/TR/2012/WD-css3-flexbox-20120322/).
+ * It is still the same specification though, and as it currently stands
+ * (2014/08/20), the flexbox specification is at last call working draft,
+ * meaning it's about to finally, really solidify. The living standard
+ * can be found here: http://www.w3.org/TR/css3-flexbox/
+ *
+ */
 
-@mixin flexbox-container {
+
+
+@mixin flexbox {
 	// 2009 syntax
 	display: -webkit-box;
-
-	// 2011 "tweener syntax"
+	display: box;
+	// 2011 "tweener" syntax
 	display: -ms-flexbox;
-
-	// Ripe for implementation-2012 syntax
-	display: -webkit-flex;
+	display: flexbox;
+	// 2012 syntax
 	display: flex;
 }
 
-@mixin flex ($flex) {
-	-webkit-box-flex: $flex;
-
-	-ms-flex: $flex;
-	-webkit-flex: $flex;
-	flex: $flex;
+@mixin inline-flexbox {
+	display: -webkit-inline-box;
+	display: inline-box;
+	display: -ms-inline-flexbox;
+	display: inline-flexbox;
+	display: inline-flex;
 }
 
-@mixin flex-direction ($direction) {
+@mixin flex($positive, $negative: 0%, $basis: auto) {
+	// min-width is the same thing as flex-basis, but better.
+	// When percentages are used with flex-basis, they're relative
+	// to the page instead of the container
+	min-width: $basis;
 
+	-webkit-box-flex: $positive;
+	box-flex: $positive;
+	flex: $positive $negative;
+
+	@if type-of($positive) == "number" {
+		// width: 100%;
+	}
+}
+
+@mixin flex-direction($direction) {
 	// For old syntax conversion
 	$box-direction: $direction;
 
@@ -39,26 +79,35 @@
 	}
 
 	-webkit-box-orient: $box-direction;
-
-	-ms-flex-direction: $direction;
-	-webkit-flex-direction: $direction;
 	flex-direction: $direction;
 }
 
-@mixin align-items ($alignment) {
+@mixin order($index) {
+	-ms-flex-order: $index;
+	order: $index;
+}
+
+@mixin align-items($alignment) {
 	-webkit-box-align: $alignment;
-
 	-ms-flex-align: $alignment;
-
-	-webkit-align-items: $alignment;
 	align-items: $alignment;
 }
 
-@mixin justify-content ($justification) {
+@mixin justify-content($justification) {
 	-webkit-box-pack: $justification;
-
 	-ms-flex-pack: $justification;
-
-	-webkit-justify-content: $justification;
 	justify-content: $justification;
+}
+
+@mixin flex-wrap($wrapping) {
+	// box-lines apparently isn't supported like, anywhere. But still.
+	@if $wrapping == wrap {
+		-webkit-box-lines: multiple;
+		box-lines: multiple;
+	} @else if $wrapping == nowrap {
+		-webkit-box-lines: multiple;
+		box-lines: single;
+	}
+
+	flex-wrap: $wrapping;
 }
