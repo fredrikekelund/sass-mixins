@@ -1,11 +1,12 @@
 /**
  * Description: Flexbox support across as many browsers as possible
- * Last update: 2014/08/22
  * Author: Fredrik Ekelund <fredrik@fredrik.computer>
  *
- * Although the most recent flexbox specification is supported without
- * vendor prefixes in most browsers, for best support I recommend using
- * Lea Verou's prefix-free to not have to worry about that.
+ *
+ * Even though I have made updates to this file for it to use more
+ * vendor prefixes, I always recommend using Lea Verou's prefix-free
+ * to not have to worry about that. Most modern browsers (13 Oct 2014)
+ * support flexbox without vendor prefixes.
  *
  * Flexbox is a real specification beast, with three different standards
  * released by the W3C over the last few years. The first one was released
@@ -47,14 +48,23 @@
 	display: inline-flex;
 }
 
-@mixin flex($positive, $negative: 0%, $basis: auto) {
-	// min-width is the same thing as flex-basis, but better.
-	// When percentages are used with flex-basis, they're relative
-	// to the page instead of the container
-	min-width: $basis;
+@mixin flex($positive, $negative: 0%, $basis: auto, $use-flex-basis: false) {
+	// min-width is the same thing as flex-basis, but better. When percentages
+	// are used with flex-basis, they're relative to the page instead of the
+	// container. There are however cases when you want to use flex-basis
+	// instead, so that's what the fourth argument is for.
+	@if $use-flex-basis == true {
+		-webkit-flex-basis: $basis;
+		-moz-flex-basis: $basis;
+		flex-basis: $basis;
+	} @else if $basis != auto {
+		min-width: $basis;
+	}
 
 	-webkit-box-flex: $positive;
 	box-flex: $positive;
+	-webkit-flex: $positive $negative;
+	-moz-flex: $positive $negative;
 	flex: $positive $negative;
 
 	@if type-of($positive) == "number" {
@@ -79,23 +89,39 @@
 	}
 
 	-webkit-box-orient: $box-direction;
+	-webkit-flex-direction: $direction;
+	-moz-flex-direction: $direction;
 	flex-direction: $direction;
 }
 
 @mixin order($index) {
 	-ms-flex-order: $index;
+	-webkit-order: $index;
+	-moz-order: $index;
 	order: $index;
+}
+
+@mixin align-self($alignment) {
+	-webkit-align-self: $alignment;
+	-moz-align-self: $alignment;
+	align-self: $alignment;
 }
 
 @mixin align-items($alignment) {
 	-webkit-box-align: $alignment;
 	-ms-flex-align: $alignment;
+
+	-webkit-align-items: $alignment;
+	-moz-align-items: $alignment;
 	align-items: $alignment;
 }
 
 @mixin justify-content($justification) {
 	-webkit-box-pack: $justification;
 	-ms-flex-pack: $justification;
+
+	-webkit-justify-content: $justification;
+	-moz-justify-content: $justification;
 	justify-content: $justification;
 }
 
@@ -109,5 +135,7 @@
 		box-lines: single;
 	}
 
+	-webkit-flex-wrap: $wrapping;
+	-moz-flex-wrap: $wrapping;
 	flex-wrap: $wrapping;
 }
