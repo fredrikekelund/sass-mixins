@@ -1,0 +1,67 @@
+/**
+ * Description: A boilerplate for IcoMoon fonts
+ * Author: Fredrik Ekelund <fredrik@fredrik.computer>
+ *
+ * With this setup, you can enjoy the best of two IcoMoon worlds.
+ * You get better selector performance, since the CSS only has to
+ * match a single class and not an attribute selector. But you don't
+ * have to do all of the labor to get there, SASS does that for you
+ * in the @each loop.
+ *
+ */
+
+
+
+@font-face {
+	font-family: "icomoon";
+	src: font-url("icomoon.eot");
+	src: font-url("icomoon.ttf") format("truetype"),
+		 font-url("icomoon.eot#iefix") format("embedded-opentype"),
+		 font-url("icomoon.svg#icomoon") format("svg");
+	font-weight: normal;
+	font-style: normal;
+}
+
+// [class^="icon-"], [class*=" icon-"]
+.icomoon {
+	font-family: "icomoon";
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	// Better Font Rendering
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+$icons: (
+	caret-down: 	"\f0d7",
+	caret-left: 	"\f0d9",
+	caret-right: 	"\f0da",
+	caret-up: 		"\f0d8",
+);
+
+@each $icon, $content in $icons {
+	.icon-#{$icon} {
+		&:before, &:after {
+			@extend .icomoon;
+		}
+
+		&:before {
+			content: $content;
+		}
+
+		&.after {
+			&:before {
+				content: "";
+			}
+
+			&:after {
+				content: $content;
+			}
+		}
+	}
+}
